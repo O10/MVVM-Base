@@ -1,5 +1,6 @@
 package com.kissdigital.mvvm_base.app.di.components;
 
+import com.kissdigital.mvvm_base.ui.click.ClicksViewModel;
 import com.kissdigital.mvvm_base.ui.main.MainViewModel;
 
 import dagger.Subcomponent;
@@ -16,4 +17,6 @@ public interface ViewModelsComponent {
     }
 
     MainViewModel mainViewModel();
+
+    ClicksViewModel clicksViewModel();
 }

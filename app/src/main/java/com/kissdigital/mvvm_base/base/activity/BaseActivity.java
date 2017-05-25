@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.kissdigital.mvvm_base.app.MyApp;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
 
@@ -11,7 +12,7 @@ import butterknife.ButterKnife;
  * Created by O10 on 24.05.2017.
  */
 
-public abstract class BaseActivity extends RxAppCompactActivity {
+public abstract class BaseActivity extends RxAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

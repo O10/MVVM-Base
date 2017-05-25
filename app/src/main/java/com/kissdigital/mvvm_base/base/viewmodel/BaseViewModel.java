@@ -10,6 +10,8 @@ import io.reactivex.subjects.BehaviorSubject;
 
 public class BaseViewModel extends ViewModel {
 
+    private boolean viewModelInitialized;
+
     private BehaviorSubject<Object> viewModelClearedSubject = BehaviorSubject.create();
 
     @Override
@@ -19,6 +21,10 @@ public class BaseViewModel extends ViewModel {
     }
 
     public void onInitialized() {
+        viewModelInitialized = true;
+    }
 
+    public boolean isViewModelInitialized() {
+        return viewModelInitialized;
     }
 }

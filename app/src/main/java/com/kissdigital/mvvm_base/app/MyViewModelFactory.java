@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.v4.util.ArrayMap;
 
 import com.kissdigital.mvvm_base.app.di.components.ViewModelsComponent;
+import com.kissdigital.mvvm_base.ui.click.ClicksViewModel;
 import com.kissdigital.mvvm_base.ui.main.MainViewModel;
 
 import java.util.Map;
@@ -22,6 +23,7 @@ public class MyViewModelFactory implements ViewModelProvider.Factory {
 
     public MyViewModelFactory(ViewModelsComponent viewModelsComponent) {
         creators.put(MainViewModel.class, viewModelsComponent::mainViewModel);
+        creators.put(ClicksViewModel.class, viewModelsComponent::clicksViewModel);
     }
 
     @Override

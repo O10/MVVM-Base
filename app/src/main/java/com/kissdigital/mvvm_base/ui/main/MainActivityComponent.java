@@ -2,8 +2,6 @@ package com.kissdigital.mvvm_base.ui.main;
 
 import com.kissdigital.mvvm_base.ui.di.ActivityScope;
 import com.kissdigital.mvvm_base.ui.di.RxPermissionsModule;
-import com.kissdigital.mvvm_base.ui.main.MainActivity;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import dagger.Component;
 

@@ -1,4 +1,4 @@
-package com.kissdigital.mvvm_base.base.activity;
+package com.kissdigital.mvvm_base.base.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -7,16 +7,16 @@ import android.support.annotation.Nullable;
 import com.kissdigital.mvvm_base.base.viewmodel.BaseViewModel;
 
 /**
- * Created by O10 on 24.05.2017.
+ * Created by O10 on 25.05.2017.
  */
 
-public abstract class MvvmActivity<T extends BaseViewModel> extends BaseActivity {
+public abstract class MvvmFragment<T extends BaseViewModel> extends BaseFragment {
 
     T viewModel;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, getApp().getAppComponent().factory()).get(getViewModelType());
         if (!viewModel.isViewModelInitialized()) {
             initViewModel();
@@ -24,12 +24,13 @@ public abstract class MvvmActivity<T extends BaseViewModel> extends BaseActivity
         }
     }
 
+    protected abstract Class<T> getViewModelType();
+
     public T getViewModel() {
         return viewModel;
     }
 
-    protected abstract Class<T> getViewModelType();
-
     protected void initViewModel() {
+
     }
 }

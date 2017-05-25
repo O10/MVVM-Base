@@ -12,7 +12,6 @@ import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
-import timber.log.Timber;
 
 
 /**
