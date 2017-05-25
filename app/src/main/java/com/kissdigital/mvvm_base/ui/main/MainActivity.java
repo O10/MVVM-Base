@@ -1,16 +1,14 @@
 package com.kissdigital.mvvm_base.ui.main;
 
 import android.Manifest;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.kissdigital.mvvm_base.R;
 import com.kissdigital.mvvm_base.base.activity.MvvmActivity;
 import com.kissdigital.mvvm_base.ui.di.RxPermissionsModule;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import javax.inject.Inject;
 
@@ -42,30 +40,21 @@ public class MainActivity extends MvvmActivity<MainViewModel> {
     @Override
     protected void initDagger() {
         super.initDagger();
-         DaggerMainActivityComponent.builder()
+        DaggerMainActivityComponent.builder()
                 .rxPermissionsModule(new RxPermissionsModule(this))
                 .build().inject(this);
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getViewModel().locationObservable()
-                .compose(bindToLifecycle())
-                .subscribe(location -> {
-                    mainText.setText(location.toString());
-                });
-
-        getViewModel().bindLifecycle(lifecycle());
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
+
         rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
                 .filter(granted -> granted)
-                .subscribe(granted -> {
-                    getViewModel().permissionsGranted();
+                .flatMap(ignored -> getViewModel().locationObservable())
+                .compose(RxLifecycle.bindUntilEvent(lifecycle(), ActivityEvent.STOP))
+                .subscribe(location -> {
+                    mainText.setText(location.toString());
                 }, Timber::e);
     }
 }
