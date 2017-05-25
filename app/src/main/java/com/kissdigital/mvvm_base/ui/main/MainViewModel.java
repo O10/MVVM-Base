@@ -10,7 +10,9 @@ import javax.inject.Inject;
 
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
+import timber.log.Timber;
 
 
 /**
@@ -20,6 +22,7 @@ import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 public class MainViewModel extends BaseViewModel {
 
     private final ReactiveLocationProvider rxLocation;
+    private final BehaviorSubject<Location> currentLocation = BehaviorSubject.create();
 
     @Inject
     public MainViewModel(ReactiveLocationProvider reactiveLocationProvider) {
@@ -32,7 +35,10 @@ public class MainViewModel extends BaseViewModel {
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(1000);
 
-        return RxJavaInterop.toV2Observable(rxLocation.getUpdatedLocation(locationRequest));
+        return RxJavaInterop.toV2Observable(rxLocation.getUpdatedLocation(locationRequest))
+                .doOnNext(currentLocation::onNext)
+                .mergeWith(currentLocation.take(1))
+                .distinctUntilChanged();
     }
 
 }
